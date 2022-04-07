@@ -4,8 +4,6 @@ _React hook which allows you to make component swipe and get an image carousels 
 
 ## Install
 
-Note, this package has as `peerDependencies`: `react` and `html2canvas`. As we assume that you already have `react` installed, you can just install `html2canvas`.
-
 To install package run:
 ```bash
 npm install --save use-react-swipe
@@ -21,26 +19,36 @@ npm install --save react html2canvas
 _A simple example which allows you to take a swipe and place it as an images on the page (also you can download it or use differently, see examples section above)._
 
 ```jsx
-import React, { createRef, useState } from 'react'
-import { useswipe } from 'use-react-swipe'
+import React, { createRef, useState } from 'react';
+import { useSwipe } from 'use-react-swipe';
+
+const images = [
+  { url: "imageURL1", id: 1 },
+  { url: "imageURL2", id: 2 },
+  { url: "imageURL3", id: 3 },
+];
 
 export default () => {
-  const ref = createRef(null)
-  const [image, takeswipe] = useswipe()
-  const getImage = () => takeswipe(ref.current)
+  const ref = createRef(null);
+  const swipeIndex = useSwipe(ref.current, 3);
+
   return (
     <div>
-      <div>
-        <button style={{ marginBottom: '10px' }} onClick={getImage}>
-          Take swipe
-        </button>
-      </div>
-      <img width={width} src={image} alt={'swipe'} />
+      <h1>use-react-swipe</h1>
+      <p>
+        <strong>hook by @arsenpoghosyan1989 which allows to create swipes</strong>
+      </p>
       <div ref={ref}>
-        <h1>use-react-swipe</h1>
-        <p>
-          <strong>hook by @arsenpoghosyan1989 which allows to create swipes</strong>
-        </p>
+        {
+            images.map(({url, id}) => (
+                <img
+                    key={id}
+                    src={url}
+                    alt={'swipeImage'}
+                    className={swipeIndex === id ? "active" : ""}
+                />
+            ))
+        }
       </div>
     </div>
   )
